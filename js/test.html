@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Page</title>
+    <link href="css/style.css" rel="stylesheet">
+    <link href="bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  
+  <div id="App">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary mb-5">
+      <!-- Navigation Content -->
+    </nav>
+
+    <!-- صفحة المنتجات -->
+    <div v-if="path === 'product'" class="container">
+      <div class="row ms-4">
+        <div v-for="pro in products" class="card mt-5 pt-5 col-md-6 col-lg-3 me-3" style="width: 18rem;">
+          <img :src="pro.image" class="card-img-top" alt="..." style="height: 170px;">
+          <div class="card-body">
+            <h5 class="card-title">{{pro.title}}</h5>
+            <p class="card-text overflow-auto" style="height: 100px;">{{ pro.description }}</p>
+            <span> Price: {{ pro.price }} </span><br>
+            <span> Category: {{ pro.category }}</span><br>
+            <span> count: {{ pro.count }} </span><br><br>
+            <button class="btn btn-primary w-100 active" @click="addToCart(pro)" :disabled="pro.count === 0">Add To Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- صفحة العربة -->
+    <div v-else class="container">
+      <table v-if="cart.length > 0" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Count</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in cart" :key="item.pro.id">
+            <td>{{ item.pro.title }}</td>
+            <td>{{ item.pro.price }} $</td>
+            <td><img :src="item.pro.image" style="width: 100px;"></td>
+            <td>{{ item.count }}</td>
+            <td><button class="btn bg-danger fw-bold w-100" @click="removeFromCart(item.pro)">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-else class="alert alert-danger text-center" role="alert">
+        Not Found
+      </div>
+    </div>
+  </div>
+
+  <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/vue.global.js"></script>
+  <script src="js/ef45e1f14e.js"></script>
+  <script src="js/products.js"></script>
+  
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          path: 'product',
+          products: [
+            // بيانات المنتجات
+          ],
+          cart: [],
+        };
+      },
+      methods: {
+        addToCart(pro) {
+          const existingProduct = this.cart.find(item => item.pro.id === pro.id);
+          if (existingProduct) {
+            existingProduct.count += 1;
+          } else {
+            this.cart.push({ pro, count: 1 });
+          }
+          pro.count -= 1;
+        },
+        removeFromCart(pro) {
+          const itemIndex = this.cart.findIndex(item => item.pro.id === pro.id);
+          if (itemIndex !== -1) {
+            const item = this.cart[itemIndex];
+            pro.count += item.count;
+            this.cart.splice(itemIndex, 1);
+          }
+        },
+      },
+    });
+
+    app.mount('#App');
+  </script>
+</body>
+</html>

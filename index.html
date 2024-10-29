@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+      <link href="css/style.css" rel="stylesheet">
+    <link href="bootstrap-5.3.3-dist/css/bootstrap.min.css"  rel="stylesheet">
+
+</head>
+<body id="myapp" class="cartss">
+    
+<!-- ------------------------------------------------------------ بسم الله الرحمن الرحيم ------------------------------------------------------------>
+  <div id="App">
+
+  <!-- --------------------------------------------------------------- start nav bar------------------- ------------------------------------------------->
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary mb-5 cartss">
+    <div class="container-fluid">
+      <a class="navbar-brand ms-2 fw-bold  fa-solid mb-2 fs-3"><span>DUN</span>KER
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarTogglerDemo02">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+            <li class="nav-item " >
+            <a class="nav-link active fs-5 mt-2 fw-bold" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active fs-5 mt-2 btn fw-bold"  @click=" path = 'product' ">Broducts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active mb-2 fs-5 mt-2 btn fw-bold" aria-disabled="true"  @click=" path = 'carts' ">Carts</a>
+          </li>
+        </ul>
+        
+<label class="switch" style="margin-right: 30px;">
+    <input type="checkbox" class="mode ">
+    <span class="slider"></span>
+</label>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> 
+        
+      </div>
+    </div>
+  </nav>
+
+<!-------------------------------------------------------------   end nav bar  ----------------------------------------------------->
+ 
+
+
+ <!---------------------------------------------------- start contant for product --------------------------------------------------- -->
+
+
+
+         <div v-if="path == 'product'" class="container ">
+               <div class="row ms-4">
+
+                  <div  v-for="pro in products" class="card mt-5 pt-5 col-md-6 col-lg-3 me-3 cartss" style="width: 18rem;">
+                     <img :src="pro.image" class="card-img-top " alt="..." style="height: 170px;">
+                        <div class="card-body">  
+                          <h5 class="card-title">{{pro.title}}</h5>
+                              <p class="card-text overflow-auto" style="height: 100px;">{{ pro.description }}</p>
+                            <span> Price: {{ pro.price }} </span>
+                          <br>
+                        <span> Category: {{pro.category}}</span>
+                                <br>
+                    
+                             <span> count :{{pro.count}} </span>
+                         <br>
+                        <br>
+                        <button  class="btn btn-primary w-100 active" @click="addToCart(pro)" :disabled=" pro.count == 0 ">Add To Cart</button>
+
+                    </div>
+                  </div>
+                </div>
+                </div> 
+
+<!------------------------------------------------------  end contant for product ------------------------------------------------>
+
+
+
+
+
+
+
+     <!-- ------------------------------------------------------------------ start taple -------------------------------------------------------------------->
+     <div  v-else  class="container " >
+      <table v-if=" cart.length > 0"  class="table table-bordered table-hover ">
+        <thead>
+           <!-- <th v-if="showColumn"> product name </th> -->
+           <th> product name  </th>
+           <th> price </th>
+           <th > image </th>
+           <th> count </th>
+        </thead>
+         <tbody>
+    
+          <tr v-for=" item in cart":key="item.pro.id">
+            <td> {{item.pro.title}} </td>
+        
+            <td> {{item.pro.price}} $ </td>
+            <td> <img :src="item.pro.image" style="width: 100px;"> </td>
+            <td> {{item.count}} </td>
+              <td><button class="btn bg-danger fw-bold w-100" @click="removeFromCart(item.pro)">Delete</button></td>
+          </tr>
+          
+         </tbody>
+    
+    
+      </table>
+      <div class="alert alert-danger text-center trr"  v-else   role="alert">
+        Not Found 
+      </div>
+      
+    </div>
+      
+    </div>
+  </div> 
+
+
+
+
+
+     <!----------------------------------------------------------------------- end taple -------------------------------------------------------------- -->
+
+
+     
+            
+
+             
+
+
+              
+     <script src="bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/vue.global.js"></script>
+    <script src="js/ef45e1f14e.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+    
+      
+  
+
+
+    <script>
+     $(document).ready(function(){
+      $(".mode").click( function (){
+        $(".cartss").toggleClass('myclass');
+     })
+    });
+
+      
+
+    </script>
+</body>
